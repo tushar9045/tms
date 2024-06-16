@@ -4,7 +4,7 @@ RUN apt-get update && \
     apt-get install -y nginx mysql-client php-fpm wget php-mysql && \
     apt-get clean && \
     rm /etc/nginx/sites-enabled/default
-COPY ./tms /var/www/html/
+COPY .TMS/tms /var/www/html/
 COPY nginx.conf /etc/nginx/sites-enabled/
 
 EXPOSE 80 443
