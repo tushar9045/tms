@@ -9,5 +9,5 @@ COPY nginx.conf /etc/nginx/sites-enabled/
 
 EXPOSE 80 443
 
-CMD ["nginx", "-g", "daemon off;"]
+#CMD ["nginx", "-g", "daemon off;"]
 CMD service php8.3-fpm start && nginx -g "daemon off;"
