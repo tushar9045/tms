@@ -1,8 +1,6 @@
 pipeline {
     agent any
-    tools {
-        // Define any tools required for your project here
-    }
+    
 
     stages {
         stage('Git Checkout') {
