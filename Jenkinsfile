@@ -1,17 +1,12 @@
 pipeline {
     agent any
 
-    tools {
-        // Define SonarQube Scanner installation
-        sonarQubeScanner 'SonarQube Scanner'
-    }
-
     stages {
         stage('SonarQube Analysis') {
             steps {
                 script {
                     // Run SonarQube Scanner with appropriate configuration
-                    def scannerHome = tool 'SonarQube Scanner'
+                    def scannerHome = tool name: 'SonarQube Scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
                     withSonarQubeEnv('SonarQube') {
                         sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=my-php-project -Dsonar.sources=."
                     }
@@ -29,4 +24,3 @@ pipeline {
         }
     }
 }
-
