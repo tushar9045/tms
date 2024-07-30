@@ -1,24 +1,22 @@
 pipeline {
     agent any
+    tools {
+        maven 'Maven'
+    }
 
     stages {
-        stage('SonarQube Analysis') {
+        stage('Git Checkout') {
             steps {
-                script {
-                    // Run SonarQube Scanner with appropriate configuration
-                    def scannerHome = tool name: 'SonarQube Scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
-                    withSonarQubeEnv('SonarQube') {
-                        sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=my-php-project -Dsonar.sources=."
-                    }
-                }
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/tushar9045/tms']])
+                echo 'Git Checkout Completed'
             }
         }
 
-        stage('Quality Gate') {
+        stage('SonarQube Analysis') {
             steps {
-                // Wait for the SonarQube analysis to complete and check the Quality Gate status
-                timeout(time: 1, unit: 'HOURS') {
-                    waitForQualityGate abortPipeline: true
+                withSonarQubeEnv('ServerNameSonar') {
+                    bat '''mvn clean verify sonar:sonar -Dsonar.projectKey=ProjectNameSonar -Dsonar.projectName='ProjectNameSonar' -Dsonar.host.url=http://52.66.236.10:9000''' //port 9000 is default for sonar
+                    echo 'SonarQube Analysis Completed'
                 }
             }
         }
