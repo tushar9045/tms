@@ -1,6 +1,5 @@
 pipeline {
     agent any
-    
 
     stages {
         stage('Git Checkout') {
@@ -15,7 +14,7 @@ pipeline {
                 withSonarQubeEnv('sq-1') {
                     // Run the SonarQube scanner for PHP
                     sh '''
-                    sonar-scanner \
+                    /opt/sonar-scanner/bin/sonar-scanner \
                         -Dsonar.projectKey=s \
                         -Dsonar.projectName="s" \
                         -Dsonar.host.url=http://52.66.236.10:9000 \
