@@ -1,7 +1,7 @@
 pipeline {
     agent any
     tools {
-        maven 'Maven'
+        // Define any tools required for your project here
     }
 
     stages {
@@ -15,7 +15,14 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('sq-1') {
-                    sh '''mvn clean verify sonar:sonar -Dsonar.projectKey=s -Dsonar.projectName='s' -Dsonar.host.url=http://52.66.236.10:9000''' //port 9000 is default for sonar
+                    // Run the SonarQube scanner for PHP
+                    sh '''
+                    sonar-scanner \
+                        -Dsonar.projectKey=s \
+                        -Dsonar.projectName="s" \
+                        -Dsonar.host.url=http://52.66.236.10:9000 \
+                        -Dsonar.sources=.
+                    '''
                     echo 'SonarQube Analysis Completed'
                 }
             }
