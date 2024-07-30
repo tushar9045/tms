@@ -3,7 +3,7 @@ pipeline {
 
     tools {
         // Define SonarQube Scanner installation
-        sonar 'SonarQube Scanner'
+        sonarQubeScanner 'SonarQube Scanner'
     }
 
     stages {
