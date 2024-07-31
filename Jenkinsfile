@@ -5,7 +5,7 @@ pipeline {
         SONAR_HOST_URL = 'http://3.109.186.253:9000'
         SONAR_PROJECT_KEY = 'test-2'
         SONAR_AUTH_TOKEN = 'sqp_668112afa5bad0fa29e612f3b2e637780fb30336'
-        PATH = '/path/to/your/sonar-scanner/bin:$PATH'
+        PATH+EXTRA = '/path/to/your/sonar-scanner/bin:$PATH'
     }
     stages {
         stage('Checkout') {
