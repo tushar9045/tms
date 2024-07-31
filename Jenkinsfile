@@ -17,11 +17,12 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('sq-1') {
-                    // Check the Java version used by SonarScanner
-                    sh 'java --version'
-
-                    // Run the SonarQube scanner for PHP
+                    // Ensure SonarScanner uses Java 17
                     sh '''
+                    export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+                    export PATH=$JAVA_HOME/bin:$PATH
+
+                    java --version
                     /opt/sonar-scanner/bin/sonar-scanner \
                         -Dsonar.projectKey=s \
                         -Dsonar.projectName="s" \
