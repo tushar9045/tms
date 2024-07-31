@@ -1,10 +1,7 @@
 pipeline {
     agent any
 
-    environment {
-        JAVA_HOME = '/usr/lib/jvm/java-17-openjdk-amd64'
-        PATH = "${env.JAVA_HOME}/bin:${env.PATH}"
-    }
+ 
 
     stages {
         stage('Git Checkout') {
@@ -19,15 +16,9 @@ pipeline {
                 withSonarQubeEnv('sq-1') {
                     // Ensure SonarScanner uses Java 17
                     sh '''
-                    export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
-                    export PATH=$JAVA_HOME/bin:$PATH
-
-                    java --version
-                    /opt/sonar-scanner/bin/sonar-scanner \
-                        -Dsonar.projectKey=s \
-                        -Dsonar.projectName="s" \
-                        -Dsonar.host.url=http://52.66.236.10:9000 \
-                        -Dsonar.sources=.
+                        sonar-scann -Dsonar.projectKey=test-2 -Dsonar.sources=. -Dsonar.host.url=http://3.109.186.253:9000 -Dsonar.login=sqp_668112afa5bad0fa29e612f3b2e637780fb30336
+                   
+                    
                     '''
                     echo 'SonarQube Analysis Completed'
                 }
