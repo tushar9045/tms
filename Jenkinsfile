@@ -1,28 +1,32 @@
+
+
 pipeline {
     agent any
-
- 
-
+    environment {
+        SONAR_HOST_URL = 'http://3.109.186.253:9000'
+        SONAR_PROJECT_KEY = 'test-2'
+        SONAR_AUTH_TOKEN = 'sqp_668112afa5bad0fa29e612f3b2e637780fb30336'
+        PATH = '/usr/local/bin:$PATH' 
+    }
     stages {
-        stage('Git Checkout') {
+        stage('Checkout') {
             steps {
-                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/tushar9045/tms']])
-                echo 'Git Checkout Completed'
+                checkout scm
             }
         }
-
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('sq-1') {
-                    // Ensure SonarScanner uses Java 17
                     sh '''
-                         /usr/local/bin/sonar-scanner -Dsonar.projectKey=test-2 -Dsonar.sources=. -Dsonar.host.url=http://3.109.186.253:9000 -Dsonar.login=sqp_668112afa5bad0fa29e612f3b2e637780fb30336
-                   
-                    
+                        sonar-scanner \
+                        -Dsonar.projectKey=${SONAR_PROJECT_KEY} \
+                        -Dsonar.sources=. \
+                        -Dsonar.host.url=${SONAR_HOST_URL} \
+                        -Dsonar.login=${SONAR_AUTH_TOKEN}
                     '''
-                    echo 'SonarQube Analysis Completed'
                 }
             }
         }
+        
     }
 }
