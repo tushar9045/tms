@@ -5,7 +5,7 @@
           stage('SonarQube Analysis') {
             def scannerHome = tool 'sq-1';
             withSonarQubeEnv() {
-              sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=test -Dsonar.sources=."
+              sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=test -Dsonar.sources=tms"
             }
           }
         }
