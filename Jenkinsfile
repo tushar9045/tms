@@ -5,7 +5,7 @@ node {
   stage('SonarQube Analysis') {
     def scannerHome = tool 'sq-1';
     withSonarQubeEnv() {
-      sh "${scannerHome}/bin/sq-1"
+      sh "${scannerHome}/bin/sonar-scanner"
     }
   }
 }
