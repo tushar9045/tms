@@ -1,4 +1,3 @@
-
 pipeline {
     agent any
 
@@ -17,12 +16,13 @@ pipeline {
                     timeout(time: 1, unit: 'HOURS') {
                         def qg = waitForQualityGate()
                         writeFile file: 'quality-gate-result.txt', text: "Quality Gate Status: ${qg.status}\n"
-                        if (qg.status != 'OK') {
+                         if (qg.status == 'OK') {
+                            echo 'pappu pass ho gaya'
+                        } else {
                             error "Pipeline aborted due to quality gate failure: ${qg.status}"
                         }
                     }
                 }
-                echo 'Quality Gate Passed'
             }
         }
         stage('Save SonarQube Output') {
