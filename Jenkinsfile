@@ -7,7 +7,10 @@ pipeline {
     stages {
         stage('SCM') {
             steps {
-                checkout scm
+                checkout([$class: 'GitSCM',
+                        branches: [[name: "${params.BRANCH_NAME}"]],
+                        userRemoteConfigs: scm.userRemoteConfigs
+                    ])
             }
         }
         stage('SonarQube Analysis') {
