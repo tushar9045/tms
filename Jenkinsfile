@@ -1,5 +1,8 @@
 pipeline {
     agent any
+     parameters {
+        choice(name: 'BRANCH_NAME', choices: ['main', 'test', 'dev'], description: 'Branch to build')
+    }
 
     stages {
         stage('SCM') {
