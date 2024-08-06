@@ -11,19 +11,12 @@ pipeline {
                 script {
                     def scannerHome = tool 'SonarQube Scanner'
                     withSonarQubeEnv('SonarQube') {
-                        sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=my-php-project -Dsonar.sources=."
+                        sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=my-php-project -Dsonar.sources=. > ${WORKSPACE}/plan.txt"
                     }
                 }
             }
         }
 
-        stage('Capture Output') {
-            steps {
-                script {
-                    def sonarOutput = sh(script: "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=my-php-project -Dsonar.sources=.", returnStdout: true).trim()
-                    writeFile file: "${WORKSPACE}/plan.txt", text: sonarOutput
-                }
-            }
-        }
+       
     }
 }
