@@ -1,6 +1,14 @@
 pipeline {
     agent any
 
+    parameters {
+        choice(
+            name: 'BRANCH_NAME',
+            choices: ['main', 'test'],
+            description: 'Select the branch to build'
+        )
+    }
+
     environment {
         DOCKER_IMAGE = 'tusharsaini9045/tms-100'
         DOCKER_TAG = '100'
@@ -10,8 +18,10 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Checkout the source code from the SCM (e.g., Git)
-                checkout scm
+                checkout([$class: 'GitSCM',
+                        branches: [[name: "${params.BRANCH_NAME}"]],
+                        userRemoteConfigs: scm.userRemoteConfigs
+                    ])
             }
         }
 
