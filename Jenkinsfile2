@@ -10,8 +10,8 @@ pipeline {
     }
 
     environment {
-        DOCKER_IMAGE = 'tusharsaini9045/tms-101'
-        DOCKER_TAG = '101'
+        DOCKER_IMAGE = 'tusharsaini9045/php-webapp'
+        DOCKER_TAG = 'v-1'
         DOCKERFILE_PATH = 'Dockerfile'
     }
 
