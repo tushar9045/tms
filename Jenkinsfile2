@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'tms-100'
+        DOCKER_IMAGE = 'tusharsaini9045/tms-100'
         DOCKER_TAG = '100'
         DOCKERFILE_PATH = 'Dockerfile'
     }
