@@ -1,0 +1,41 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_IMAGE = 'tms-100'
+        DOCKER_TAG = '100'
+        DOCKERFILE_PATH = 'Dockerfile'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout the source code from the SCM (e.g., Git)
+                checkout scm
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    // Build the Docker image using the sh step
+                    sh "docker build -t ${env.DOCKER_IMAGE}:${env.DOCKER_TAG} -f ${env.DOCKERFILE_PATH} ."
+                }
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    // Login to Docker Hub (or your Docker registry)
+                    withCredentials([usernamePassword(credentialsId: 'docker-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                        sh "echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin"
+                    }
+                    // Push the Docker image
+                    sh "docker push ${env.DOCKER_IMAGE}:${env.DOCKER_TAG}"
+                }
+            }
+        }
+    }
+}
+
