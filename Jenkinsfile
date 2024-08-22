@@ -4,6 +4,9 @@ pipeline {
     parameters {
         choice(name: 'BRANCH_NAME', choices: ['main', 'test', 'dev'], description: 'Branch to build')
     }
+    env{
+        SONAR_PROJECT_KEY = "chow"
+    }
 
     stages {
 
