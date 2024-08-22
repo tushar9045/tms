@@ -20,7 +20,7 @@ pipeline {
                 withSonarQubeEnv('sq-1') {
 
                     sh '''
-                        sonar-scanner \
+                        "${scannerHome}/bin/sonar-scanner"
                         -Dsonar.projectKey=${SONAR_PROJECT_KEY} \
                         -Dsonar.sources=. \
                         -Dsonar.host.url=${SONAR_HOST_URL} \
