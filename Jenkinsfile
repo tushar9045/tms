@@ -1,10 +1,10 @@
 pipeline {
     agent any
 
-     parameters {
+    parameters {
         choice(name: 'BRANCH_NAME', choices: ['main', 'test', 'dev'], description: 'Branch to build')
-
     }
+
     stages {
 
         stage('SCM') {
@@ -15,20 +15,20 @@ pipeline {
                     ])
             }
         }    
+        
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('sq-1') {
-
-                    sh '''
-                        "/opt/bin/sonar-scanner"
-                        -Dsonar.projectKey=${SONAR_PROJECT_KEY} \
-                        -Dsonar.sources=. \
-                        -Dsonar.host.url=${SONAR_HOST_URL} \
-                        -Dsonar.login=${SONAR_AUTH_TOKEN}
-                    '''
+                script {
+                    def scannerHome = tool 'SonarScanner'
+                    withSonarQubeEnv('sq-1') {
+                        sh "${scannerHome}/bin/sonar-scanner \
+                            -Dsonar.projectKey=${SONAR_PROJECT_KEY} \
+                            -Dsonar.sources=. \
+                            -Dsonar.host.url=${SONAR_HOST_URL} \
+                            -Dsonar.login=${SONAR_AUTH_TOKEN}"
+                    }
                 }
             }
         }
-       
     }
 }
